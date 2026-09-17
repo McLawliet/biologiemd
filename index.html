@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioMD — Biologia pentru Moldova</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ================= TOKENS (Paleta Originală) ================= */
+:root{
+  --emerald:#059669;
+  --emerald-dark:#047857;
+  --teal:#0D9488;
+  --ink:#0B1F1B;         /* near-black, green-tinted */
+  --ink-soft:#16302A;
+  --bg:#F6F8F6;          /* warm-cool paper */
+  --paper:#FFFFFF;
+  --line:#E2E7E4;
+  --line-strong:#CBD5D1;
+  --text:#13221D;
+  --text-muted:#54675F;
+  --text-faint:#8B9C94;
+  --gold:#B4863C;         /* winner accents */
+  --radius-sm:8px;
+  --radius-md:14px;
+  --radius-lg:22px;
+  --shadow-card: 0 1px 2px rgba(11,31,27,.04), 0 1px 0 rgba(11,31,27,.03);
+  --font-ui:'Inter', system-ui, sans-serif;
+  --font-display:'Inter Tight', 'Inter', system-ui, sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-ui);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:2.5px solid var(--emerald); outline-offset:2px; border-radius:4px;}
+
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+.field-texture{
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:
+    radial-gradient(circle at 18% 8%, rgba(5,150,105,.05), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(13,148,136,.05), transparent 38%);
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+  position:sticky; top:0; z-index:100;
+  background:var(--ink);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  max-width:1180px;margin:0 auto;padding:0 28px;
+  display:flex; align-items:center; gap:28px;
+  height:64px;
+}
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.brand-mark{
+  width:32px;height:32px;border-radius:9px;
+  background:linear-gradient(145deg, var(--emerald), var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.brand-mark svg{width:18px;height:18px;}
+.brand-name{
+  font-family:var(--font-display);
+  font-weight:800; font-size:18.5px; color:#fff; letter-spacing:-0.01em;
+}
+
+.nav-links{display:flex; align-items:center; gap:4px; flex:1;}
+.nav-links a{
+  color:rgba(255,255,255,.72);
+  font-size:14px; font-weight:500;
+  padding:8px 11px; border-radius:8px;
+  transition:color .15s ease, background .15s ease;
+  white-space:nowrap;
+}
+.nav-links a:hover{color:#fff; background:rgba(255,255,255,.07);}
+.nav-links a.active{color:#fff; background:rgba(255,255,255,.09);}
+
+.nav-search{
+  display:flex; align-items:center; gap:8px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:9px; padding:0 12px; height:36px;
+  width:200px; flex-shrink:0;
+  transition:width .2s ease, background .2s ease, border-color .2s ease;
+}
+.nav-search:focus-within{width:250px; background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.25);}
+.nav-search svg{width:15px;height:15px;flex-shrink:0;color:rgba(255,255,255,.45);}
+.nav-search input{
+  background:none; border:none; outline:none; color:#fff;
+  font-size:13.5px; width:100%; font-family:inherit;
+}
+.nav-search input::placeholder{color:rgba(255,255,255,.38);}
+
+.nav-cta{
+  background:var(--emerald); color:#fff; font-weight:600; font-size:13.5px;
+  padding:9px 16px; border-radius:9px; border:none;
+  flex-shrink:0; transition:background .15s ease;
+}
+.nav-cta:hover{background:var(--emerald-dark);}
+
+/* ================= HERO ================= */
+.hero{
+  position:relative;
+  padding:76px 0 88px;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.hero-inner{
+  display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;
+}
+.hero-kicker{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:13.5px; font-weight:600; color:var(--emerald-dark);
+  background:rgba(5,150,105,.08); border:1px solid rgba(5,150,105,.16);
+  padding:6px 13px 6px 10px; border-radius:100px; margin-bottom:22px;
+}
+.hero-kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--emerald); flex-shrink:0;}
+
+h1.hero-title{
+  font-family:var(--font-display);
+  font-size:45px; line-height:1.1; font-weight:800;
+  color:var(--ink); letter-spacing:-0.02em;
+  margin:0 0 20px;
+}
+.hero-title .accent{color:var(--teal);}
+
+.hero-desc{
+  font-size:16.5px; line-height:1.65; color:var(--text-muted);
+  max-width:500px; margin:0 0 32px;
+}
+
+.hero-actions{display:flex; gap:12px; margin-bottom:40px; flex-wrap:wrap;}
+.btn-primary{
+  background:var(--emerald); color:#fff; font-weight:600; font-size:14.5px;
+  padding:13px 22px; border-radius:10px; border:none;
+  box-shadow:0 1px 2px rgba(5,150,105,.15);
+  transition:background .15s ease, transform .1s ease;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.btn-primary:hover{background:var(--emerald-dark);}
+.btn-secondary{
+  background:var(--paper); color:var(--ink); font-weight:600; font-size:14.5px;
+  padding:13px 22px; border-radius:10px; border:1px solid var(--line-strong);
+  transition:border-color .15s ease, background .15s ease;
+}
+.btn-secondary:hover{border-color:var(--teal); background:#F0FAF8;}
+
+.hero-stats{display:flex; gap:36px;}
+.hero-stat b{
+  display:block; font-family:var(--font-display); font-size:26px; font-weight:800;
+  color:var(--ink); letter-spacing:-0.01em;
+}
+.hero-stat span{font-size:13px; color:var(--text-faint); font-weight:500;}
+
+.hero-visual{position:relative; height:400px;}
+.hero-art-card{
+  position:absolute; inset:0;
+  background:linear-gradient(160deg, #0E2B24 0%, #0B4A3E 55%, #0D9488 130%);
+  border-radius:26px; overflow:hidden;
+  box-shadow:0 18px 40px -14px rgba(6,40,33,.35);
+}
+.hero-art-card svg{position:absolute; inset:0; width:100%; height:100%;}
+.hero-float-card{
+  position:absolute; left:-22px; bottom:26px;
+  background:#fff; border-radius:14px; padding:16px 18px;
+  box-shadow:0 14px 30px -10px rgba(11,31,27,.22);
+  border:1px solid var(--line); width:240px;
+}
+.hero-float-card .label{font-size:11.5px; color:var(--text-faint); font-weight:600; margin-bottom:4px;}
+.hero-float-card .value{font-family:var(--font-display); font-size:17px; font-weight:700; color:var(--ink);}
+.hero-float-card .row{display:flex; align-items:center; justify-content:space-between; margin-top:10px; padding-top:10px; border-top:1px solid var(--line);}
+.hero-float-card .row span{font-size:12px; color:var(--text-muted);}
+.hero-float-card .row .pill{
+  font-size:11px; font-weight:600; color:var(--emerald-dark); background:rgba(5,150,105,.1);
+  padding:3px 8px; border-radius:100px;
+}
+
+/* ================= SECTION HEADERS ================= */
+.section{padding:72px 0;}
+.section + .section{border-top:1px solid var(--line);}
+.section-head{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:24px;
+  margin-bottom:32px; flex-wrap:wrap;
+}
+.section-head h2{
+  font-family:var(--font-display); font-size:29px; font-weight:800;
+  color:var(--ink); letter-spacing:-0.015em; margin:0 0 8px;
+}
+.section-head p{font-size:14.5px; color:var(--text-muted); margin:0; max-width:520px;}
+
+/* ================= SECTIUNEA OLIMPIADE ================= */
+.class-tabs{display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap;}
+.class-btn{
+  background:var(--paper); border:1px solid var(--line-strong); color:var(--text-muted);
+  font-size:14px; font-weight:600; padding:9px 18px; border-radius:10px;
+  transition:all .15s ease;
+}
+.class-btn:hover{border-color:var(--teal); color:var(--ink);}
+.class-btn.active{background:var(--ink); border-color:var(--ink); color:#fff;}
+
+.year-filter-bar{
+  display:flex; align-items:center; gap:12px; margin-bottom:20px;
+  background:rgba(226,231,228,.4); padding:8px 14px; border-radius:10px; width:fit-content;
+}
+.year-filter-bar span{font-size:13px; font-weight:600; color:var(--text-muted);}
+.year-pill{
+  background:none; border:none; font-size:13px; font-weight:600; color:var(--text-muted);
+  padding:4px 10px; border-radius:6px; transition:all .15s ease;
+}
+.year-pill:hover{color:var(--ink);}
+.year-pill.active{background:var(--paper); color:var(--emerald-dark); box-shadow:0 1px 3px rgba(0,0,0,.08);}
+
+.stage-cards-grid{
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+}
+.stage-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:22px; box-shadow:var(--shadow-card); display:flex; flex-direction:column;
+  justify-content:space-between;
+}
+.stage-card-head{margin-bottom:16px;}
+.stage-badge{
+  display:inline-block; font-size:11.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.03em; padding:4px 9px; border-radius:6px; width:fit-content; margin-bottom:12px;
+}
+.stage-badge.sector{background:#E0F2FE; color:#0369A1;}
+.stage-badge.municipiu{background:#FEF3C7; color:#92400E;}
+.stage-badge.republica{background:#D1FAE5; color:#065F46;}
+
+.stage-status{
+  display:flex; align-items:center; gap:6px; font-size:13px; font-weight:500; color:var(--text-muted);
+}
+.stage-status .status-dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+.stage-status.available .status-dot{background:var(--emerald);}
+.stage-status.available{color:var(--emerald-dark); font-weight:600;}
+.stage-status.pending .status-dot{background:var(--gold);}
+.stage-status.pending{color:#92400E;}
+
+.doc-download-box{
+  display:flex; flex-direction:column; gap:8px;
+  border-top:1px solid var(--line); padding-top:16px;
+}
+.dl-btn{
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:13px; font-weight:600; padding:10px 14px; border-radius:8px;
+  border:1px solid var(--line-strong); background:var(--bg); color:var(--ink);
+  transition:all .15s ease;
+}
+.dl-btn:hover:not(.disabled){border-color:var(--teal); background:var(--paper); color:var(--teal);}
+.dl-btn.disabled{opacity:0.5; cursor:not-allowed; background:#f0f2f1;}
+.dl-btn svg{width:15px; height:15px;}
+
+/* ================= HANDOUTURI ================= */
+.handout-filters{display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap;}
+.handout-filter-btn{
+  background:var(--paper); border:1px solid var(--line); font-size:13px; font-weight:500;
+  color:var(--text-muted); padding:6px 14px; border-radius:100px; transition:all .15s ease;
+}
+.handout-filter-btn:hover{border-color:var(--teal); color:var(--ink);}
+.handout-filter-btn.active{background:var(--emerald-dark); border-color:var(--emerald-dark); color:#fff;}
+
+.handout-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+.handout-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:20px; box-shadow:var(--shadow-card); display:flex; flex-direction:column;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.handout-card:hover{transform:translateY(-2px); border-color:var(--teal);}
+.handout-tag{
+  font-size:11px; font-weight:700; color:var(--emerald-dark); background:rgba(5,150,105,.08);
+  padding:3px 8px; border-radius:4px; width:fit-content; margin-bottom:10px;
+}
+.handout-card h4{font-size:16px; font-weight:700; color:var(--ink); margin:0 0 6px;}
+.handout-card p{font-size:13px; color:var(--text-muted); margin:0 0 16px; line-height:1.5; flex:1;}
+.handout-footer{
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid var(--line); padding-top:12px; font-size:12px; color:var(--text-faint);
+}
+.handout-link{font-weight:600; color:var(--emerald-dark); display:flex; align-items:center; gap:4px;}
+
+/* ================= SECTIUNEA CARȚI ================= */
+.books-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+.book-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius-md);
+  padding:22px; box-shadow:var(--shadow-card); display:flex; flex-direction:column;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.book-card:hover{transform:translateY(-2px); border-color:var(--teal);}
+.book-badge{
+  font-size:11px; font-weight:700; color:var(--teal); background:rgba(13,148,136,.08);
+  padding:3px 8px; border-radius:4px; width:fit-content; margin-bottom:12px;
+}
+.book-card h3{font-size:17px; font-weight:700; color:var(--ink); margin:0 0 4px;}
+.book-card .author{font-size:13px; font-weight:600; color:var(--text-muted); margin-bottom:10px;}
+.book-card p{font-size:13px; color:var(--text-muted); margin:0 0 18px; line-height:1.5; flex:1;}
+
+/* ================= CONCURSUL MENDEL ================= */
+.mendel-wrapper{
+  background:linear-gradient(135deg, #0B1F1B 0%, #0E382F 60%, #0D9488 100%);
+  border-radius:var(--radius-lg); padding:40px; color:#fff; position:relative; overflow:hidden;
+}
+.mendel-header{max-width:680px; margin-bottom:32px;}
+.mendel-header .badge{
+  display:inline-block; font-size:11.5px; font-weight:700; color:var(--teal); background:rgba(255,255,255,.1);
+  padding:4px 12px; border-radius:100px; border:1px solid rgba(255,255,255,.15); margin-bottom:12px;
+}
+.mendel-header h2{font-family:var(--font-display); font-size:32px; font-weight:800; margin:0 0 12px; letter-spacing:-0.01em;}
+.mendel-header p{font-size:15px; color:rgba(255,255,255,.8); margin:0; line-height:1.6;}
+
+.mendel-grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;}
+.mendel-box{
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--radius-md); padding:24px; backdrop-filter:blur(4px);
+}
+.mendel-box h4{font-size:17px; font-weight:700; margin:0 0 8px; color:#fff;}
+.mendel-box p{font-size:13.5px; color:rgba(255,255,255,.75); margin:0; line-height:1.55;}
+
+/* ================= FOOTER ================= */
+footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; margin-top:40px;}
+.footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:40px;}
+.footer-brand p{font-size:13.5px; line-height:1.65; margin:14px 0 0; max-width:260px; color:rgba(255,255,255,.42);}
+.footer-col h4{font-size:13px; font-weight:700; color:#fff; margin:0 0 14px;}
+.footer-col a{display:block; font-size:13.5px; color:rgba(255,255,255,.5); margin-bottom:10px; transition:color .15s ease;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.09); padding-top:22px;
+  display:flex; justify-content:space-between; font-size:12.5px; color:rgba(255,255,255,.35);
+  flex-wrap:wrap; gap:10px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:980px){
+  .hero-inner{grid-template-columns:1fr;}
+  .hero-visual{height:280px; order:-1;}
+  .stage-cards-grid, .handout-grid, .books-grid, .mendel-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:760px){
+  .nav-links, .nav-search{display:none;}
+  h1.hero-title{font-size:34px;}
+  .section{padding:48px 0;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="field-texture"></div>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 6 6 6 12.5C6 17.19 8.69 21 12 21C15.31 21 18 17.19 18 12.5C18 6 12 2 12 2Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 8V17" stroke="white" stroke-width="1.8" stroke-linecap="round"/><path d="M9 11.5C9 11.5 10 12.5 12 12.5C14 12.5 15 11.5 15 11.5" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </span>
+      <div>
+        <div class="brand-name">BioMD</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#top" class="active">Acasă</a>
+      <a href="#olimpiade">Olimpiade</a>
+      <a href="#handouturi">Handout-uri</a>
+      <a href="#carti">Cărți &amp; Recomandări</a>
+      <a href="#mendel">Concursul Mendel</a>
+    </div>
+    <div class="nav-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="text" placeholder="Caută resurse...">
+    </div>
+    <button class="nav-cta">Autentificare</button>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="hero-kicker"><span class="dot"></span>Platformă educațională necomercială</span>
+      <h1 class="hero-title">Resurse de Biologie pentru <span class="accent">Elevi &amp; Profesori</span></h1>
+      <p class="hero-desc">Baza de date cu subiecte și bareme pentru olimpiadele naționale și internaționale, materiale sintetizate și ghiduri de pregătire.</p>
+      <div class="hero-actions">
+        <a href="#olimpiade" class="btn-primary">
+          Explorează Subiectele
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#carti" class="btn-secondary">Biblioteca de Cărți</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>Juniori &amp; Liceu</b><span>clasele 7–12</span></div>
+        <div class="hero-stat"><b>Curriculum IBO</b><span>concursul mendel</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-art-card">
+        <svg viewBox="0 0 480 420" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffffff" stop-opacity=".14"/>
+              <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <g stroke="url(#lg1)" stroke-width="1.4" fill="none">
+            <path d="M240 40 C 180 120, 180 260, 240 400" stroke="rgba(255,255,255,.35)" stroke-width="2"/>
+            <path d="M240 90 C 190 110, 150 150, 120 170"/>
+            <path d="M240 140 C 195 155, 160 185, 135 210"/>
+            <path d="M240 190 C 200 205, 170 235, 150 255"/>
+            <path d="M240 90 C 290 110, 330 150, 360 170"/>
+            <path d="M240 140 C 285 155, 320 185, 345 210"/>
+            <path d="M240 190 C 280 205, 310 235, 330 255"/>
+          </g>
+        </svg>
+      </div>
+      <div class="hero-float-card">
+        <div class="label">Acces rapid</div>
+        <div class="value">Arhivă Subiecte &amp; Bareme</div>
+        <div class="row">
+          <span>Actualizat la zi</span>
+          <span class="pill">PDF / DOCX</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= STRUCTURA OLIMPIADE ================= -->
+<section class="section" id="olimpiade">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Subiecte și Bareme de Olimpiadă</h2>
+        <p>Alege categoria și anul pentru a accesa direct documentele oficiale ale etapelor de concurs.</p>
+      </div>
+    </div>
+
+    <!-- 1. SELECTARE CLASA / NIVEL -->
+    <div class="class-tabs" id="classTabs">
+      <button class="class-btn active" data-class="juniori">Juniori (Științe / Clasele 7-8)</button>
+      <button class="class-btn" data-class="9">Clasa a IX-a</button>
+      <button class="class-btn" data-class="10">Clasa a X-a</button>
+      <button class="class-btn" data-class="11">Clasa a XI-a</button>
+      <button class="class-btn" data-class="12">Clasa a XII-a</button>
+    </div>
+
+    <!-- 2. FILTRU AN -->
+    <div class="year-filter-bar">
+      <span>Selectează Anul:</span>
+      <button class="year-pill active" data-year="2025">2025</button>
+      <button class="year-pill" data-year="2024">2024</button>
+      <button class="year-pill" data-year="2023">2023</button>
+    </div>
+
+    <!-- 3. DIVIZARE PE ETAPE -->
+    <div class="stage-cards-grid" id="stageGrid">
+      <!-- Injected by JS based on selection -->
+    </div>
+  </div>
+</section>
+
+<!-- ================= HANDOUT-URI & RESURSE ================= -->
+<section class="section" id="handouturi">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Handout-uri &amp; Materiale de Studiu</h2>
+        <p>Sinteze teoretice, hărți conceptuale și fișiere tematice organizate pe domenii biologice.</p>
+      </div>
+    </div>
+
+    <div class="handout-filters" id="handoutFilters">
+      <button class="handout-filter-btn active" data-cat="all">Toate domeniile</button>
+      <button class="handout-filter-btn" data-cat="citologie">Citologie</button>
+      <button class="handout-filter-btn" data-cat="biochimie">Biochimie</button>
+      <button class="handout-filter-btn" data-cat="anatomie">Anatomie</button>
+      <button class="handout-filter-btn" data-cat="sistematica">Sistematică</button>
+      <button class="handout-filter-btn" data-cat="botanica">Botanică</button>
+      <button class="handout-filter-btn" data-cat="morfologie">Morfologie</button>
+      <button class="handout-filter-btn" data-cat="diversitate">Diversitate</button>
+      <button class="handout-filter-btn" data-cat="genetica">Genetică</button>
+      <button class="handout-filter-btn" data-cat="ecologie">Ecologie</button>
+    </div>
+
+    <div class="handout-grid" id="handoutGrid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ================= CĂRȚI & RECOMANDĂRI ================= -->
+<section class="section" id="carti">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <h2>Cărți &amp; Recomandări de Bibliografie</h2>
+        <p>Tratate fundamentale și manuale de referință utilizate la olimpiadele naționale și internaționale.</p>
+      </div>
+    </div>
+
+    <div class="books-grid">
+      <div class="book-card">
+        <span class="book-badge">General &amp; IBO</span>
+        <h3>Campbell Biology</h3>
+        <div class="author">Lisa A. Urry, Michael L. Cain, et al.</div>
+        <p>Cartea de bază pentru orice olimpic. Acoperă într-un mod structurat și intuitiv toate domeniile majore ale biologiei moderne.</p>
+        <div class="doc-download-box">
+          <a href="#" class="dl-btn" onclick="return false">
+            <span>Descarcă / Detalii PDF</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <span class="book-badge">Biologie Celulară</span>
+        <h3>Molecular Biology of the Cell</h3>
+        <div class="author">Bruce Alberts, Alexander Johnson, et al.</div>
+        <p>Tratatul definitiv pentru înțelegerea mecanismelor celulare, căilor de semnalizare și organizării moleculare.</p>
+        <div class="doc-download-box">
+          <a href="#" class="dl-btn" onclick="return false">
+            <span>Descarcă / Detalii PDF</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <span class="book-badge">Biochimie &amp; Genetică</span>
+        <h3>Lehninger Principles of Biochemistry</h3>
+        <div class="author">David L. Nelson, Michael M. Cox</div>
+        <p>Lucrare esențială pentru aprofundarea metabolismului intermediar, structurii proteinelor și enzimologiei.</p>
+        <div class="doc-download-box">
+          <a href="#" class="dl-btn" onclick="return false">
+            <span>Descarcă / Detalii PDF</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGINA CONCURSUL MENDEL ================= -->
+<section class="section" id="mendel">
+  <div class="wrap">
+    <div class="mendel-wrapper">
+      <div class="mendel-header">
+        <span class="badge">Curriculum IBO</span>
+        <h2>Concursul de Biologie „Gregor Mendel”</h2>
+        <p>Un concurs structurat special pe modelul Olimpiadei Internaționale de Biologie (IBO), conceput pentru a testa raționamentul științific complex.</p>
+      </div>
+
+      <div class="mendel-grid">
+        <div class="mendel-box">
+          <h4>Conceput după Curricula IBO</h4>
+          <p>Spre deosebire de competițiile bazate pe programa națională, Concursul Mendel aliniează cerințele la standardele internaționale IBO, acoperind concepte avansate de genomică, fizio-ecologie și biologie moleculară.</p>
+        </div>
+        <div class="mendel-box">
+          <h4>Problem Solving &amp; Gândire Critică</h4>
+          <p>Formatul subiectelor pune accent pe interpretarea graficelor, analiza datelor experimentale, deducerea căilor metabolice și rezolvarea de probleme, reducând la minim cerința de memorare pură.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2C12 2 6 6 6 12.5C6 17.19 8.69 21 12 21C15.31 21 18 17.19 18 12.5C18 6 12 2 12 2Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+          <span class="brand-name">BioMD</span>
+        </div>
+        <p>Platformă de resurse educaționale pentru olimpiadele și concursurile de biologie din Republica Moldova.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Olimpiade</h4>
+        <a href="#olimpiade">Olimpiada de Științe (Juniori)</a>
+        <a href="#olimpiade">Olimpiada Națională de Biologie</a>
+        <a href="#mendel">Concursul Gregor Mendel</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resurse</h4>
+        <a href="#handouturi">Handout-uri Tematice</a>
+        <a href="#carti">Biblioteca de Cărți</a>
+        <a href="#olimpiade">Arhivă Subiecte &amp; Bareme</a>
+      </div>
+      <div class="footer-col">
+        <h4>Proiecte</h4>
+        <a href="#mendel">Curriculum IBO</a>
+        <a href="#top">Despre Noi</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 BioMD — Biologia pentru Moldova</span>
+      <span>Platformă Educațională</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ---------- DATE OLIMPIADE (FĂRĂ TEME IRELEVANTE) ----------
+const olympicData = {
+  juniori: {
+    2025: [
+      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
+      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
+      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: false}
+    ],
+    2024: [
+      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
+      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
+      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: true}
+    ]
+  },
+  9: {
+    2025: [
+      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
+      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
+      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: false}
+    ]
+  },
+  10: {
+    2025: [
+      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
+      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
+      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: true}
+    ]
+  }
+};
+
+const defaultStages = [
+  {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: false},
+  {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: false},
+  {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: false}
+];
+
+// ---------- HANDOUTURI PE CATEGORII RECTIFICATE ----------
+const handouts = [
+  {title: 'Organizarea Ultrastructurală a Celulei Eucariote', cat: 'citologie', class: 'Liceu / IBO', desc: 'Sinteză privind organitele celulare, sistemul endomembranar și citoscheletul.'},
+  {title: 'Căile Metabolice: Glicoliza și Ciclul Krebs', cat: 'biochimie', class: 'Liceu / IBO', desc: 'Bilanțul energetic, reglarea enzimatică și stocarea energiei sub formă de ATP.'},
+  {title: 'Anatomia Sistemului Nervos Central', cat: 'anatomie', class: 'Clasa 9-11', desc: 'Structura creierului, mătura spinării și arcul reflex.'},
+  {title: 'Principii de Sistematică și Cladistică', cat: 'sistematica', class: 'Liceu', desc: 'Construirea arborelui filogenetic și analiza caracterelor apomorfe.'},
+  {title: 'Histologia Vegetală: Țesuturi Embrionare și Definitive', cat: 'botanica', class: 'Juniori / Clasa 9', desc: 'Meristeme, țesuturi conducătoare (xilem, floem) și parenchimuri.'},
+  {title: 'Morfologia Organelor Vegetative la Angiosperme', cat: 'morfologie', class: 'Juniori / Clasa 9', desc: 'Adaptările funcționale ale rădăcinii, tulpinii și frunzei.'},
+  {title: 'Diversitatea Regnurilor: Protiste și Fungi', cat: 'diversitate', class: 'Juniori / Liceu', desc: 'Clasificarea organismelor unicelulare și spori.'},
+  {title: 'Genetica Mendeliană și Interacțiuni Genice', cat: 'genetica', class: 'Clasa 10-12', desc: 'Monohibridare, dihibridare, codominanță și epistazie.'},
+  {title: 'Relații Intertspecifice și Bucle Trofice', cat: 'ecologie', class: 'General', desc: 'Ciclurile biogeochimice și dinamica populațiilor.'}
+];
+
+let selectedClass = 'juniori';
+let selectedYear = '2025';
+
+function renderStages() {
+  const container = document.getElementById('stageGrid');
+  const classData = olympicData[selectedClass] || {};
+  const yearData = classData[selectedYear] || defaultStages;
+
+  container.innerHTML = yearData.map(item => `
+    <div class="stage-card">
+      <div class="stage-card-head">
+        <span class="stage-badge ${item.stageKey}">${item.stageName}</span>
+        <div class="stage-status ${item.available ? 'available' : 'pending'}">
+          <span class="status-dot"></span>
+          <span>${item.available ? 'Disponibil pentru descărcare' : 'În proces de arhivare'}</span>
+        </div>
+      </div>
+      <div class="doc-download-box">
+        <a href="#" class="dl-btn ${!item.available ? 'disabled' : ''}" onclick="return false">
+          <span>Descarcă Subiect (PDF)</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </a>
+        <a href="#" class="dl-btn ${!item.available ? 'disabled' : ''}" onclick="return false">
+          <span>Descarcă Barem (PDF)</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('classTabs').addEventListener('click', e => {
+  if(!e.target.classList.contains('class-btn')) return;
+  document.querySelectorAll('.class-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  selectedClass = e.target.dataset.class;
+  renderStages();
+});
+
+document.querySelectorAll('.year-pill').forEach(btn => {
+  btn.addEventListener('click', e => {
+    document.querySelectorAll('.year-pill').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    selectedYear = e.target.dataset.year;
+    renderStages();
+  });
+});
+
+function renderHandouts(cat = 'all') {
+  const container = document.getElementById('handoutGrid');
+  const filtered = cat === 'all' ? handouts : handouts.filter(h => h.cat === cat);
+  
+  if(filtered.length === 0) {
+    container.innerHTML = `<p style="grid-column:1/-1; color:var(--text-muted); font-size:14px;">Nu există materiale disponibile momentan pentru această categorie.</p>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(h => `
+    <div class="handout-card">
+      <span class="handout-tag">${h.class}</span>
+      <h4>${h.title}</h4>
+      <p>${h.desc}</p>
+      <div class="handout-footer">
+        <span>Format PDF</span>
+        <a href="#" class="handout-link" onclick="return false">Deschide Fișa →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('handoutFilters').addEventListener('click', e => {
+  if(!e.target.classList.contains('handout-filter-btn')) return;
+  document.querySelectorAll('.handout-filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  renderHandouts(e.target.dataset.cat);
+});
+
+// INIT
+renderStages();
+renderHandouts();
+</script>
+</body>
+</html>
