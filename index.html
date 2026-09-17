@@ -451,8 +451,8 @@ footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; 
 
     <!-- 1. SELECTARE CLASA / NIVEL -->
     <div class="class-tabs" id="classTabs">
-      <button class="class-btn active" data-class="juniori">Juniori (Științe / Clasele 7-8)</button>
-      <button class="class-btn" data-class="9">Clasa a IX-a</button>
+      <button class="class-btn" data-class="juniori">Juniori (Științe / Clasele 7-8)</button>
+      <button class="class-btn active" data-class="9">Clasa a IX-a</button>
       <button class="class-btn" data-class="10">Clasa a X-a</button>
       <button class="class-btn" data-class="11">Clasa a XI-a</button>
       <button class="class-btn" data-class="12">Clasa a XII-a</button>
@@ -461,9 +461,12 @@ footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; 
     <!-- 2. FILTRU AN -->
     <div class="year-filter-bar">
       <span>Selectează Anul:</span>
-      <button class="year-pill active" data-year="2025">2025</button>
-      <button class="year-pill" data-year="2024">2024</button>
+      <button class="year-pill" data-year="2025">2025</button>
+      <button class="year-pill active" data-year="2024">2024</button>
       <button class="year-pill" data-year="2023">2023</button>
+      <button class="year-pill" data-year="2022">2022</button>
+      <button class="year-pill" data-year="2020">2020</button>
+      <button class="year-pill" data-year="2019">2019</button>
     </div>
 
     <!-- 3. DIVIZARE PE ETAPE -->
@@ -616,41 +619,70 @@ footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; 
 </footer>
 
 <script>
-// ---------- DATE OLIMPIADE (FĂRĂ TEME IRELEVANTE) ----------
+// ---------- DATE OLIMPIADE ----------
+// Fiecare intrare de clasă/an/etapă poate avea: { subiect: 'cale/catre/fisier.pdf', barem: 'cale/catre/fisier.pdf' }
+// Dacă o etapă nu are 'subiect' și 'barem', ea este afișată automat ca "În proces de arhivare".
+const STAGE_LABELS = {
+  sector:    'Etapa de Sector / Locală',
+  municipiu: 'Etapa Municipală / Raională',
+  republica: 'Etapa Republicană / Națională'
+};
+const STAGE_ORDER = ['sector', 'municipiu', 'republica'];
+
 const olympicData = {
-  juniori: {
-    2025: [
-      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
-      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
-      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: false}
-    ],
-    2024: [
-      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
-      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
-      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: true}
-    ]
-  },
   9: {
-    2025: [
-      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
-      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
-      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: false}
-    ]
+    2019: { municipiu: { subiect: 'files/Biologie_9_Subiect_2019_Municipal.pdf' } },
+    2020: { municipiu: { subiect: 'files/Biologie_9_Subiect_2020_Municipal.pdf' } },
+    2022: { municipiu: { subiect: 'files/Biologie_9_Subiect_2022_Municipal.pdf' } },
+    2024: { municipiu: {
+        subiect: 'files/Biologie_9_Subiect_2024_Municipal.pdf',
+        barem:   'files/Biologie_9_Barem_2024_Municipal.pdf'
+    } },
+    2025: { municipiu: {
+        subiect: 'files/Biologie_9_Subiect_2025_Municipal.pdf',
+        barem:   'files/Biologie_9_Barem_2025_Municipal.pdf'
+    } }
   },
   10: {
-    2025: [
-      {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: true},
-      {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: true},
-      {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: true}
-    ]
+    2019: { municipiu: { subiect: 'files/Biologie_10_Subiect_2019_Municipal.pdf' } },
+    2020: { municipiu: { subiect: 'files/Biologie_10_Subiect_2020_Municipal.pdf' } },
+    2022: { municipiu: { subiect: 'files/Biologie_10_Subiect_2022_Municipal.pdf' } },
+    2024: { municipiu: {
+        subiect: 'files/Biologie_10_Subiect_2024_Municipal.pdf',
+        barem:   'files/Biologie_10_Barem_2024_Municipal.pdf'
+    } },
+    2025: { municipiu: {
+        subiect: 'files/Biologie_10_Subiect_2025_Municipal.pdf',
+        barem:   'files/Biologie_10_Barem_2025_Municipal.pdf'
+    } }
+  },
+  11: {
+    2019: { municipiu: { subiect: 'files/Biologie_11_Subiect_2019_Municipal.pdf' } },
+    2020: { municipiu: { subiect: 'files/Biologie_11_Subiect_2020_Municipal.pdf' } },
+    2022: { municipiu: { subiect: 'files/Biologie_11_Subiect_2022_Municipal.pdf' } },
+    2024: { municipiu: {
+        subiect: 'files/Biologie_11_Subiect_2024_Municipal.pdf',
+        barem:   'files/Biologie_11_Barem_2024_Municipal.pdf'
+    } },
+    2025: { municipiu: {
+        subiect: 'files/Biologie_11_Subiect_2025_Municipal.pdf',
+        barem:   'files/Biologie_11_Barem_2025_Municipal.pdf'
+    } }
+  },
+  12: {
+    2019: { municipiu: { subiect: 'files/Biologie_12_Subiect_2019_Municipal.pdf' } },
+    2020: { municipiu: { subiect: 'files/Biologie_12_Subiect_2020_Municipal.pdf' } },
+    2022: { municipiu: { subiect: 'files/Biologie_12_Subiect_2022_Municipal.pdf' } },
+    2024: { municipiu: {
+        subiect: 'files/Biologie_12_Subiect_2024_Municipal.pdf',
+        barem:   'files/Biologie_12_Barem_2024_Municipal.pdf'
+    } },
+    2025: { municipiu: {
+        subiect: 'files/Biologie_12_Subiect_2025_Municipal.pdf',
+        barem:   'files/Biologie_12_Barem_2025_Municipal.pdf'
+    } }
   }
 };
-
-const defaultStages = [
-  {stageKey: 'sector', stageName: 'Etapa de Sector / Locală', available: false},
-  {stageKey: 'municipiu', stageName: 'Etapa Municipală / Raională', available: false},
-  {stageKey: 'republica', stageName: 'Etapa Republicană / Națională', available: false}
-];
 
 // ---------- HANDOUTURI PE CATEGORII RECTIFICATE ----------
 const handouts = [
@@ -665,35 +697,54 @@ const handouts = [
   {title: 'Relații Intertspecifice și Bucle Trofice', cat: 'ecologie', class: 'General', desc: 'Ciclurile biogeochimice și dinamica populațiilor.'}
 ];
 
-let selectedClass = 'juniori';
-let selectedYear = '2025';
+let selectedClass = '9';
+let selectedYear = '2024';
 
 function renderStages() {
   const container = document.getElementById('stageGrid');
   const classData = olympicData[selectedClass] || {};
-  const yearData = classData[selectedYear] || defaultStages;
+  const yearData = classData[selectedYear] || {};
 
-  container.innerHTML = yearData.map(item => `
-    <div class="stage-card">
-      <div class="stage-card-head">
-        <span class="stage-badge ${item.stageKey}">${item.stageName}</span>
-        <div class="stage-status ${item.available ? 'available' : 'pending'}">
-          <span class="status-dot"></span>
-          <span>${item.available ? 'Disponibil pentru descărcare' : 'În proces de arhivare'}</span>
+  container.innerHTML = STAGE_ORDER.map(stageKey => {
+    const docs = yearData[stageKey];
+    const available = !!(docs && (docs.subiect || docs.barem));
+
+    const subiectBtn = (docs && docs.subiect)
+      ? `<a href="${docs.subiect}" class="dl-btn" download>
+           <span>Descarcă Subiect (PDF)</span>
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+         </a>`
+      : `<a href="#" class="dl-btn disabled" onclick="return false">
+           <span>Descarcă Subiect (PDF)</span>
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+         </a>`;
+
+    const baremBtn = (docs && docs.barem)
+      ? `<a href="${docs.barem}" class="dl-btn" download>
+           <span>Descarcă Barem (PDF)</span>
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+         </a>`
+      : `<a href="#" class="dl-btn disabled" onclick="return false">
+           <span>Descarcă Barem (PDF)</span>
+           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+         </a>`;
+
+    return `
+      <div class="stage-card">
+        <div class="stage-card-head">
+          <span class="stage-badge ${stageKey}">${STAGE_LABELS[stageKey]}</span>
+          <div class="stage-status ${available ? 'available' : 'pending'}">
+            <span class="status-dot"></span>
+            <span>${available ? 'Disponibil pentru descărcare' : 'În proces de arhivare'}</span>
+          </div>
+        </div>
+        <div class="doc-download-box">
+          ${subiectBtn}
+          ${baremBtn}
         </div>
       </div>
-      <div class="doc-download-box">
-        <a href="#" class="dl-btn ${!item.available ? 'disabled' : ''}" onclick="return false">
-          <span>Descarcă Subiect (PDF)</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-        </a>
-        <a href="#" class="dl-btn ${!item.available ? 'disabled' : ''}" onclick="return false">
-          <span>Descarcă Barem (PDF)</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
-        </a>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 document.getElementById('classTabs').addEventListener('click', e => {
