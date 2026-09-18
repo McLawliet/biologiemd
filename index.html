@@ -456,10 +456,11 @@ footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; 
       <button class="class-btn" data-class="10">Clasa a X-a</button>
       <button class="class-btn" data-class="11">Clasa a XI-a</button>
       <button class="class-btn" data-class="12">Clasa a XII-a</button>
+      <button class="class-btn" data-class="unclassified">Materiale nesortate</button>
     </div>
 
     <!-- 2. FILTRU AN -->
-    <div class="year-filter-bar">
+    <div class="year-filter-bar" id="yearFilterBar">
       <span>Selectează Anul:</span>
       <button class="year-pill" data-year="2025">2025</button>
       <button class="year-pill active" data-year="2024">2024</button>
@@ -467,6 +468,11 @@ footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; 
       <button class="year-pill" data-year="2022">2022</button>
       <button class="year-pill" data-year="2020">2020</button>
       <button class="year-pill" data-year="2019">2019</button>
+      <button class="year-pill" data-year="2018">2018</button>
+      <button class="year-pill" data-year="2017">2017</button>
+      <button class="year-pill" data-year="2016">2016</button>
+      <button class="year-pill" data-year="2015">2015</button>
+      <button class="year-pill" data-year="2013">2013</button>
     </div>
 
     <!-- 3. DIVIZARE PE ETAPE -->
@@ -631,6 +637,7 @@ const STAGE_ORDER = ['sector', 'municipiu', 'republica'];
 
 const olympicData = {
   9: {
+    2018: { municipiu: { subiect: 'files/Biologie_9_Subiect_2018_Municipal.pdf' } },
     2019: { municipiu: { subiect: 'files/Biologie_9_Subiect_2019_Municipal.pdf' } },
     2020: { municipiu: { subiect: 'files/Biologie_9_Subiect_2020_Municipal.pdf' } },
     2022: { municipiu: { subiect: 'files/Biologie_9_Subiect_2022_Municipal.pdf' } },
@@ -644,6 +651,11 @@ const olympicData = {
     } }
   },
   10: {
+    2013: { sector: { subiect: 'files/Biologie_10_Subiect_2013_Sector.pdf' } },
+    2015: { municipiu: { subiect: 'files/Biologie_10_Subiect_2015_Municipal.pdf' } },
+    2016: { municipiu: { subiect: 'files/Biologie_10_Subiect_2016_Municipal.pdf' } },
+    2017: { municipiu: { subiect: 'files/Biologie_10_Subiect_2017_Municipiu.pdf' } },
+    2018: { sector: { subiect: 'files/Biologie_10_Subiect_2018_Sector.pdf' } },
     2019: { municipiu: { subiect: 'files/Biologie_10_Subiect_2019_Municipal.pdf' } },
     2020: { municipiu: { subiect: 'files/Biologie_10_Subiect_2020_Municipal.pdf' } },
     2022: { municipiu: { subiect: 'files/Biologie_10_Subiect_2022_Municipal.pdf' } },
@@ -684,6 +696,16 @@ const olympicData = {
   }
 };
 
+// ---------- MATERIALE NESORTATE ----------
+// Teste fără an, clasă sau etapă menționate în document — nu pot fi încadrate în arhiva de mai sus.
+const unclassifiedTests = [
+  { title: 'Test 1', subiect: 'files/Nesortat_Test_1.pdf' },
+  { title: 'Test 2', subiect: 'files/Nesortat_Test_2.pdf' },
+  { title: 'Test 3', subiect: 'files/Nesortat_Test_3.pdf' },
+  { title: 'Test 4', subiect: 'files/Nesortat_Test_4.pdf' },
+  { title: 'Test 5', subiect: 'files/Nesortat_Test_5.pdf' }
+];
+
 // ---------- HANDOUTURI PE CATEGORII RECTIFICATE ----------
 const handouts = [
   {title: 'Organizarea Ultrastructurală a Celulei Eucariote', cat: 'citologie', class: 'Liceu / IBO', desc: 'Sinteză privind organitele celulare, sistemul endomembranar și citoscheletul.'},
@@ -702,6 +724,32 @@ let selectedYear = '2024';
 
 function renderStages() {
   const container = document.getElementById('stageGrid');
+  const yearBar = document.getElementById('yearFilterBar');
+
+  if (selectedClass === 'unclassified') {
+    yearBar.style.display = 'none';
+    container.innerHTML = `
+      <div class="stage-card" style="grid-column:1/-1;">
+        <div class="stage-card-head" style="margin-bottom:14px;">
+          <div class="stage-status pending" style="margin-bottom:6px;">
+            <span class="status-dot"></span>
+            <span>Fără an, clasă sau etapă menționate în document</span>
+          </div>
+        </div>
+        <div class="doc-download-box" style="border-top:none; padding-top:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:10px;">
+          ${unclassifiedTests.map(t => `
+            <a href="${t.subiect}" class="dl-btn" download>
+              <span>${t.title} (PDF)</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    return;
+  }
+  yearBar.style.display = '';
+
   const classData = olympicData[selectedClass] || {};
   const yearData = classData[selectedYear] || {};
 
