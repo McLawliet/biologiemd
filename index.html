@@ -462,8 +462,9 @@ footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; 
     <!-- 2. FILTRU AN -->
     <div class="year-filter-bar" id="yearFilterBar">
       <span>Selectează Anul:</span>
+      <button class="year-pill active" data-year="2026">2026</button>
       <button class="year-pill" data-year="2025">2025</button>
-      <button class="year-pill active" data-year="2024">2024</button>
+      <button class="year-pill" data-year="2024">2024</button>
       <button class="year-pill" data-year="2023">2023</button>
       <button class="year-pill" data-year="2022">2022</button>
       <button class="year-pill" data-year="2020">2020</button>
@@ -637,62 +638,188 @@ const STAGE_ORDER = ['sector', 'municipiu', 'republica'];
 
 const olympicData = {
   9: {
-    2018: { municipiu: { subiect: 'files/Biologie_9_Subiect_2018_Municipal.pdf' } },
-    2019: { municipiu: { subiect: 'files/Biologie_9_Subiect_2019_Municipal.pdf' } },
+    2017: { republica: { subiect: 'https://aee.edu.md/sites/default/files/ol17_bio_test_9_ro.pdf' } },
+    2018: {
+      municipiu: { subiect: 'files/Biologie_9_Subiect_2018_Municipal.pdf' },
+      republica: { subiect: 'https://aee.edu.md/sites/default/files/ol18bio_9_teorie_ro.pdf' }
+    },
+    2019: {
+      municipiu: { subiect: 'files/Biologie_9_Subiect_2019_Municipal.pdf' },
+      republica: { subiect: 'https://aee.edu.md/sites/default/files/ol19_bio_9_test_ro.pdf' }
+    },
     2020: { municipiu: { subiect: 'files/Biologie_9_Subiect_2020_Municipal.pdf' } },
-    2022: { municipiu: { subiect: 'files/Biologie_9_Subiect_2022_Municipal.pdf' } },
-    2024: { municipiu: {
+    2022: {
+      municipiu: { subiect: 'files/Biologie_9_Subiect_2022_Municipal.pdf' },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol22_biologie_test_9_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol22_biologie_barem_9.pdf'
+      }
+    },
+    2023: {
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol23_bio_9_teorie_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol23_bio_barem_9.pdf'
+      }
+    },
+    2024: {
+      municipiu: {
         subiect: 'files/Biologie_9_Subiect_2024_Municipal.pdf',
         barem:   'files/Biologie_9_Barem_2024_Municipal.pdf'
-    } },
-    2025: { municipiu: {
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol24_biologie_9_test.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol24_biologie_9_barem.pdf'
+      }
+    },
+    2025: {
+      municipiu: {
         subiect: 'files/Biologie_9_Subiect_2025_Municipal.pdf',
         barem:   'files/Biologie_9_Barem_2025_Municipal.pdf'
-    } }
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol25_bio_ix_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol25_bio_clasa_9_barem.pdf'
+      }
+    },
+    2026: { republica: { subiect: 'https://ance.gov.md/sites/default/files/biologie_publicare.zip' } }
   },
   10: {
     2013: { sector: { subiect: 'files/Biologie_10_Subiect_2013_Sector.pdf' } },
     2015: { municipiu: { subiect: 'files/Biologie_10_Subiect_2015_Municipal.pdf' } },
     2016: { municipiu: { subiect: 'files/Biologie_10_Subiect_2016_Municipal.pdf' } },
-    2017: { municipiu: { subiect: 'files/Biologie_10_Subiect_2017_Municipiu.pdf' } },
-    2018: { sector: { subiect: 'files/Biologie_10_Subiect_2018_Sector.pdf' } },
-    2019: { municipiu: { subiect: 'files/Biologie_10_Subiect_2019_Municipal.pdf' } },
+    2017: {
+      municipiu: { subiect: 'files/Biologie_10_Subiect_2017_Municipiu.pdf' },
+      republica: { subiect: 'https://aee.edu.md/sites/default/files/ol17_bio_test_10_ro.pdf' }
+    },
+    2018: {
+      sector: { subiect: 'files/Biologie_10_Subiect_2018_Sector.pdf' },
+      republica: { subiect: 'https://aee.edu.md/sites/default/files/ol18bio_10_teorie_ro.pdf' }
+    },
+    2019: {
+      municipiu: { subiect: 'files/Biologie_10_Subiect_2019_Municipal.pdf' },
+      republica: { subiect: 'https://aee.edu.md/sites/default/files/ol19_bio_10_test_ro.pdf' }
+    },
     2020: { municipiu: { subiect: 'files/Biologie_10_Subiect_2020_Municipal.pdf' } },
-    2022: { municipiu: { subiect: 'files/Biologie_10_Subiect_2022_Municipal.pdf' } },
-    2024: { municipiu: {
+    2022: {
+      municipiu: { subiect: 'files/Biologie_10_Subiect_2022_Municipal.pdf' },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol22_biologie_test_10_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol22_biologie_barem_10.pdf'
+      }
+    },
+    2023: {
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol23_bio_10_teorie_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol23_bio_barem_10.pdf'
+      }
+    },
+    2024: {
+      municipiu: {
         subiect: 'files/Biologie_10_Subiect_2024_Municipal.pdf',
         barem:   'files/Biologie_10_Barem_2024_Municipal.pdf'
-    } },
-    2025: { municipiu: {
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol24_biologie_10_test.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol24_biologie_10_barem.pdf'
+      }
+    },
+    2025: {
+      municipiu: {
         subiect: 'files/Biologie_10_Subiect_2025_Municipal.pdf',
         barem:   'files/Biologie_10_Barem_2025_Municipal.pdf'
-    } }
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol25_bio_x_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol25_bio_clasa_10_barem.pdf'
+      }
+    },
+    2026: { republica: { subiect: 'https://ance.gov.md/sites/default/files/biologie_publicare.zip' } }
   },
   11: {
-    2019: { municipiu: { subiect: 'files/Biologie_11_Subiect_2019_Municipal.pdf' } },
+    2017: { republica: { subiect: 'https://aee.edu.md/sites/default/files/ol17_bio_test_11_ro.pdf' } },
+    2018: { republica: { subiect: 'https://aee.edu.md/sites/default/files/ol18bio_11_teorie_ro.pdf' } },
+    2019: {
+      municipiu: { subiect: 'files/Biologie_11_Subiect_2019_Municipal.pdf' },
+      republica: { subiect: 'https://aee.edu.md/sites/default/files/ol19_bio_11_test_ro.pdf' }
+    },
     2020: { municipiu: { subiect: 'files/Biologie_11_Subiect_2020_Municipal.pdf' } },
-    2022: { municipiu: { subiect: 'files/Biologie_11_Subiect_2022_Municipal.pdf' } },
-    2024: { municipiu: {
+    2022: {
+      municipiu: { subiect: 'files/Biologie_11_Subiect_2022_Municipal.pdf' },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol22_biologie_test_11_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol22_biologie_barem_11.pdf'
+      }
+    },
+    2023: {
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol23_bio_11_teorie_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol23_bio_barem_11.pdf'
+      }
+    },
+    2024: {
+      municipiu: {
         subiect: 'files/Biologie_11_Subiect_2024_Municipal.pdf',
         barem:   'files/Biologie_11_Barem_2024_Municipal.pdf'
-    } },
-    2025: { municipiu: {
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol24_biologie_11_test.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol24_biologie_11_barem.pdf'
+      }
+    },
+    2025: {
+      municipiu: {
         subiect: 'files/Biologie_11_Subiect_2025_Municipal.pdf',
         barem:   'files/Biologie_11_Barem_2025_Municipal.pdf'
-    } }
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol25_bio_xi_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol25_bio_clasa_11_barem.pdf'
+      }
+    },
+    2026: { republica: { subiect: 'https://ance.gov.md/sites/default/files/biologie_publicare.zip' } }
   },
   12: {
-    2019: { municipiu: { subiect: 'files/Biologie_12_Subiect_2019_Municipal.pdf' } },
+    2017: { republica: { subiect: 'https://aee.edu.md/sites/default/files/ol17_bio_test_12_ro.pdf' } },
+    2018: { republica: { subiect: 'https://aee.edu.md/sites/default/files/ol18bio_12_teorie_ro.pdf' } },
+    2019: {
+      municipiu: { subiect: 'files/Biologie_12_Subiect_2019_Municipal.pdf' },
+      republica: { subiect: 'https://aee.edu.md/sites/default/files/ol19_bio_12_test_ro.pdf' }
+    },
     2020: { municipiu: { subiect: 'files/Biologie_12_Subiect_2020_Municipal.pdf' } },
-    2022: { municipiu: { subiect: 'files/Biologie_12_Subiect_2022_Municipal.pdf' } },
-    2024: { municipiu: {
+    2022: {
+      municipiu: { subiect: 'files/Biologie_12_Subiect_2022_Municipal.pdf' },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol22_biologie_test_12_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol22_biologie_barem_12.pdf'
+      }
+    },
+    2023: {
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol23_bio_12_teorie_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol23_bio_barem_12.pdf'
+      }
+    },
+    2024: {
+      municipiu: {
         subiect: 'files/Biologie_12_Subiect_2024_Municipal.pdf',
         barem:   'files/Biologie_12_Barem_2024_Municipal.pdf'
-    } },
-    2025: { municipiu: {
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol24_biologie_12_test.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol24_biologie_12_barem.pdf'
+      }
+    },
+    2025: {
+      municipiu: {
         subiect: 'files/Biologie_12_Subiect_2025_Municipal.pdf',
         barem:   'files/Biologie_12_Barem_2025_Municipal.pdf'
-    } }
+      },
+      republica: {
+        subiect: 'https://ance.gov.md/sites/default/files/ol25_bio_xii_ro.pdf',
+        barem:   'https://ance.gov.md/sites/default/files/ol25_bio_clasa_12_barem.pdf'
+      }
+    },
+    2026: { republica: { subiect: 'https://ance.gov.md/sites/default/files/biologie_publicare.zip' } }
   }
 };
 
@@ -720,7 +847,7 @@ const handouts = [
 ];
 
 let selectedClass = '9';
-let selectedYear = '2024';
+let selectedYear = '2026';
 
 function renderStages() {
   const container = document.getElementById('stageGrid');
@@ -757,8 +884,11 @@ function renderStages() {
     const docs = yearData[stageKey];
     const available = !!(docs && (docs.subiect || docs.barem));
 
+    const isExternal = (url) => /^https?:\/\//.test(url);
+    const linkAttrs = (url) => isExternal(url) ? `target="_blank" rel="noopener"` : `download`;
+
     const subiectBtn = (docs && docs.subiect)
-      ? `<a href="${docs.subiect}" class="dl-btn" download>
+      ? `<a href="${docs.subiect}" class="dl-btn" ${linkAttrs(docs.subiect)}>
            <span>Descarcă Subiect (PDF)</span>
            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
          </a>`
@@ -768,7 +898,7 @@ function renderStages() {
          </a>`;
 
     const baremBtn = (docs && docs.barem)
-      ? `<a href="${docs.barem}" class="dl-btn" download>
+      ? `<a href="${docs.barem}" class="dl-btn" ${linkAttrs(docs.barem)}>
            <span>Descarcă Barem (PDF)</span>
            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
          </a>`
@@ -847,3 +977,4 @@ renderHandouts();
 </script>
 </body>
 </html>
+
