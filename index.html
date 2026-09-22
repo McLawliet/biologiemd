@@ -241,6 +241,8 @@ h1.hero-title{
 .stage-badge.sector{background:#E0F2FE; color:#0369A1;}
 .stage-badge.municipiu{background:#FEF3C7; color:#92400E;}
 .stage-badge.republica{background:#D1FAE5; color:#065F46;}
+.stage-badge.municipiu_stiinte{background:#EDE9FE; color:#5B21B6;}
+.stage-badge.municipiu_biologie{background:#FEF3C7; color:#92400E;}
 
 .stage-status{
   display:flex; align-items:center; gap:6px; font-size:13px; font-weight:500; color:var(--text-muted);
@@ -632,9 +634,14 @@ footer{background:var(--ink); color:rgba(255,255,255,.55); padding:52px 0 28px; 
 const STAGE_LABELS = {
   sector:    'Etapa de Sector / Locală',
   municipiu: 'Etapa Municipală / Raională',
-  republica: 'Etapa Republicană / Națională'
+  republica: 'Etapa Republicană / Națională',
+  municipiu_stiinte:  'Etapa Municipală — Științe',
+  municipiu_biologie: 'Concursul Municipal la Biologie'
 };
 const STAGE_ORDER = ['sector', 'municipiu', 'republica'];
+// Juniorii (clasele 7-8) nu au etapă de sector: concurează direct la nivel municipal,
+// fie la Științe (proba generală), fie la Concursul municipal dedicat Biologiei.
+const JUNIORI_STAGE_ORDER = ['municipiu_stiinte', 'municipiu_biologie', 'republica'];
 
 const olympicData = {
   9: {
@@ -879,8 +886,9 @@ function renderStages() {
 
   const classData = olympicData[selectedClass] || {};
   const yearData = classData[selectedYear] || {};
+  const stageOrder = (selectedClass === 'juniori') ? JUNIORI_STAGE_ORDER : STAGE_ORDER;
 
-  container.innerHTML = STAGE_ORDER.map(stageKey => {
+  container.innerHTML = stageOrder.map(stageKey => {
     const docs = yearData[stageKey];
     const available = !!(docs && (docs.subiect || docs.barem));
 
