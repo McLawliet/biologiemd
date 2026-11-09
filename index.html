@@ -42,7 +42,7 @@ footer{border-top:1px solid #000;margin-top:40px;padding-top:6px;font-size:14px;
 <h2 id="arhiva">Arhivă: subiecte și bareme</h2>
 <div class="cls" id="classLinks"></div>
 <div id="archive"></div>
-<p class="note">Linkurile către ance.gov.md și aee.edu.md se deschid pe site-ul oficial. Unde nu apare barem, nu am găsit unul publicat. Pentru 2020 și 2021 nu am găsit probă republicană de biologie. Pentru 2026 ANCE a publicat o singură arhivă zip pentru toate clasele.</p>
+<p class="note">Linkurile către ance.gov.md și aee.edu.md se deschid pe site-ul oficial. Unde nu apare barem, nu am găsit unul publicat. Pentru 2020 și 2021 nu am găsit probă republicană de biologie. Pentru 2026 ANCE a publicat o singură arhivă zip pentru toate clasele. Subiectele și baremele de la etapa pe sector sunt fotografii ale paginilor (p. 1, p. 2 etc.); unele conțin însemnări de mână. Pentru clasa a X-a, 2023, lipsesc primele pagini ale testului A, iar pentru 2012 avem doar pagina 3.</p>
 
 <h2 id="handouturi">Handout-uri</h2>
 <ul id="handoutList"></ul>
@@ -62,6 +62,7 @@ footer{border-top:1px solid #000;margin-top:40px;padding-top:6px;font-size:14px;
 <script>
 // ---------- DATE ----------
 // Pentru fiecare clasă / an / etapă: { subiect: 'cale sau link', barem: 'cale sau link' }
+// Pentru materiale pe mai multe pagini / teste: { links: [['Subiect A', [['p. 1','files/...'], ...]], ...] }
 // Dacă lipsește o etapă, în tabel apare "–".
 const STAGES = {
   def:     [['sector','Sector'], ['municipiu','Municipiu / raion'], ['republica','Republica']],
@@ -71,6 +72,35 @@ const CLASSES = [
   ['juniori','Juniori (7–8)'], ['9','Clasa a IX-a'], ['10','Clasa a X-a'],
   ['11','Clasa a XI-a'], ['12','Clasa a XII-a'], ['nesortate','Nesortate']
 ];
+
+// ajutoare pentru imaginile de la sector
+function pages(base, n) {
+  return Array.from({ length: n }, (_, i) => ['p. ' + (i + 1), 'files/' + base + '_p' + (i + 1) + '.jpg']);
+}
+function one(file) { return [['imagine', 'files/' + file]]; }
+
+const SECTOR_XI_2025 = { links: [
+  ['Subiect A', pages('Biologie_11_Subiect_2025_Sector_TestA', 4)],
+  ['Subiect B', pages('Biologie_11_Subiect_2025_Sector_TestB', 2)],
+  ['Barem A', one('Biologie_11_Barem_2025_Sector_TestA.jpg')],
+  ['Barem B', one('Biologie_11_Barem_2025_Sector_TestB.jpg')]
+] };
+const SECTOR_XI_2026 = { links: [
+  ['Subiect A', pages('Biologie_11_Subiect_2026_Sector_TestA', 3)],
+  ['Subiect B', pages('Biologie_11_Subiect_2026_Sector_TestB', 2)],
+  ['Barem A', one('Biologie_11_Barem_2026_Sector_TestA.jpg')],
+  ['Barem B', one('Biologie_11_Barem_2026_Sector_TestB.jpg')]
+] };
+const SECTOR_X_2023 = { links: [
+  ['Subiect A', [
+    ['p. 2', 'files/Biologie_10_Subiect_2023_Sector_TestA_p2.jpg'],
+    ['p. 3', 'files/Biologie_10_Subiect_2023_Sector_TestA_p3.jpg']
+  ]],
+  ['Subiect B', [['p. 1', 'files/Biologie_10_Subiect_2023_Sector_TestB_p1.jpg']]]
+] };
+const SECTOR_X_2012 = { links: [
+  ['Subiect', [['p. 3', 'files/Biologie_10_Subiect_2012_Sector_p3.jpg']]]
+] };
 
 const olympicData = {
   9: {
@@ -120,6 +150,7 @@ const olympicData = {
     2026: { republica: { subiect: 'https://ance.gov.md/sites/default/files/biologie_publicare.zip' } }
   },
   10: {
+    2012: { sector: SECTOR_X_2012 },
     2013: { sector: { subiect: 'files/Biologie_10_Subiect_2013_Sector.pdf' } },
     2015: { municipiu: { subiect: 'files/Biologie_10_Subiect_2015_Municipal.pdf' } },
     2016: { municipiu: { subiect: 'files/Biologie_10_Subiect_2016_Municipal.pdf' } },
@@ -135,7 +166,12 @@ const olympicData = {
       municipiu: { subiect: 'files/Biologie_10_Subiect_2019_Municipal.pdf' },
       republica: { subiect: 'https://aee.edu.md/sites/default/files/ol19_bio_10_test_ro.pdf' }
     },
-    2020: { municipiu: { subiect: 'files/Biologie_10_Subiect_2020_Municipal.pdf' } },
+    2020: {
+      municipiu: {
+        subiect: 'files/Biologie_10_Subiect_2020_Municipal.pdf',
+        barem:   'files/Biologie_10_Barem_2020_Municipal.jpg'
+      }
+    },
     2022: {
       municipiu: { subiect: 'files/Biologie_10_Subiect_2022_Municipal.pdf' },
       republica: {
@@ -144,6 +180,7 @@ const olympicData = {
       }
     },
     2023: {
+      sector: SECTOR_X_2023,
       republica: {
         subiect: 'https://ance.gov.md/sites/default/files/ol23_bio_10_teorie_ro.pdf',
         barem:   'https://ance.gov.md/sites/default/files/ol23_bio_barem_10.pdf'
@@ -203,6 +240,7 @@ const olympicData = {
       }
     },
     2025: {
+      sector: SECTOR_XI_2025,
       municipiu: {
         subiect: 'files/Biologie_11_Subiect_2025_Municipal.pdf',
         barem:   'files/Biologie_11_Barem_2025_Municipal.pdf'
@@ -212,7 +250,10 @@ const olympicData = {
         barem:   'https://ance.gov.md/sites/default/files/ol25_bio_clasa_11_barem.pdf'
       }
     },
-    2026: { republica: { subiect: 'https://ance.gov.md/sites/default/files/biologie_publicare.zip' } }
+    2026: {
+      sector: SECTOR_XI_2026,
+      republica: { subiect: 'https://ance.gov.md/sites/default/files/biologie_publicare.zip' }
+    }
   },
   12: {
     2017: { republica: { subiect: 'https://aee.edu.md/sites/default/files/ol17_bio_test_12_ro.pdf' } },
@@ -264,7 +305,8 @@ const unclassifiedTests = [
   { title: 'Test 2', subiect: 'files/Nesortat_Test_2.pdf' },
   { title: 'Test 3', subiect: 'files/Nesortat_Test_3.pdf' },
   { title: 'Test 4', subiect: 'files/Nesortat_Test_4.pdf' },
-  { title: 'Test 5', subiect: 'files/Nesortat_Test_5.pdf' }
+  { title: 'Test 5', subiect: 'files/Nesortat_Test_5.pdf' },
+  { title: 'Test 6 (imagine, p. 37–50)', subiect: 'files/Nesortat_Test_6.jpg' }
 ];
 
 // Handout-uri: adaugă { title: '...', file: 'files/nume.pdf' }. Fără 'file' apare ca "în pregătire".
@@ -287,11 +329,16 @@ function link(url, text) {
 }
 
 function cell(docs) {
-  if (!docs || (!docs.subiect && !docs.barem)) return '–';
-  const out = [];
-  if (docs.subiect) out.push(link(docs.subiect, /\.zip$/.test(docs.subiect) ? 'zip (toate clasele)' : 'subiect'));
-  if (docs.barem) out.push(link(docs.barem, 'barem'));
-  return out.join(' · ');
+  if (!docs) return '–';
+  const lines = [];
+  const base = [];
+  if (docs.subiect) base.push(link(docs.subiect, /\.zip$/.test(docs.subiect) ? 'zip (toate clasele)' : 'subiect'));
+  if (docs.barem) base.push(link(docs.barem, 'barem'));
+  if (base.length) lines.push(base.join(' · '));
+  (docs.links || []).forEach(g =>
+    lines.push(g[0] + ': ' + g[1].map(l => link(l[1], l[0])).join(' · '))
+  );
+  return lines.length ? lines.join('<br>') : '–';
 }
 
 function currentClass() {
@@ -338,4 +385,3 @@ if (location.hash.indexOf('#arhiva-') === 0) document.getElementById('arhiva').s
 </script>
 </body>
 </html>
-
